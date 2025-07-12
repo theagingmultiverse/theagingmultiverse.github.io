@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="The Aging Multiverse: Generating Condition-Aware Facial Aging Tree via Training-Free Diffusion.">
+  <meta name="keywords" content="The Aging Multiverse">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Aging Multiverse: Generating Condition-Aware Facial Aging Tree via Training-Free Diffusion</title>
+
+  <!-- visiting analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CCSP06NGG6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CCSP06NGG6');
+  </script>
+
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕒</text></svg>">
+
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                                   css                                   -->
+  <!-- ----------------------------------------------------------------------- -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <!-- icons -->
+  <!-- <link rel="stylesheet" href="./static/css/fontawesome.all.min.css"> -->
+  <!-- https://jpswalsh.github.io/academicons/ -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <!-- nerfies -->
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- reconfusion -->
+  <link rel="stylesheet" href="./static/css/app.css">
+
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                                   js                                    -->
+  <!-- ----------------------------------------------------------------------- -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <!-- <script defer src="./static/js/fontawesome.all.min.js"></script> -->
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+
+  <!-- fontawesome -->
+  <script src="https://kit.fontawesome.com/0717dd2a06.js" crossorigin="anonymous"></script>
+
+  <!-- mathjax -->
+  <!-- https://docs.mathjax.org/en/latest/web/configuration.html#using-a-local-file-for-configuration -->
+  <script src="./static/js/mathjax-config.js" defer></script>
+  <script type="text/javascript" id="MathJax-script" defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+  <!-- img comparison slider -->
+  <!-- https://github.com/sneas/img-comparison-slider -->
+  <!-- <script defer src="./static/js/image-comparison-slider.js"></script>
+  <link rel="stylesheet" href="./static/css/image-comparison-slider.css"/> -->
+
+  <!-- nerfies -->
+  <script src="./static/js/index_nerfies.js"></script>
+  <!-- reconfusion -->
+  <script src="./static/js/app.js"></script>
+  <script src="./static/js/celeb_compare.js"></script>
+  
+</head>
+
+<body class="has-navbar-fixed-top">
+<!-- https://bulma.io/documentation/components/navbar/ -->
+
+<!-- ------------------------------- navbar ------------------------------- -->
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://luchaoqi.com/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <!-- <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://cv.cs.unc.edu/" target="_blank">
+            CV@UNC
+          </a>
+        </div>
+      </div> -->
+
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          TOC
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="#abstract">
+            Abstract
+          </a>
+          <a class="navbar-item" href="#method">
+            Method
+          </a>
+          <a class="navbar-item" href="#results">
+            Results
+          </a>
+          <a class="navbar-item" href="#acknowledgements">
+            Acknowledgements
+          </a>
+          <a class="navbar-item" href="#bib">
+            BibTeX
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- ------------------------------- authors ------------------------------- -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">The Aging Multiverse: Generating Condition-Aware Facial Aging Tree via Training-Free Diffusion</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/bang-gong-461862250/">Bang Gong</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://luchaoqi.com/">Luchao Qi</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=g2CuYi4AAAAJ&hl=en">Jiaye Wu</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/zhicheng-fu-97533492/">Zhicheng Fu</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Chunbo Song</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cs.umd.edu/~djacobs/">David W. Jacobs</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/john-nicholson-9684792/">John Nicholson</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cs.unc.edu/~ronisen/">Roni Sengupta</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>UNC Chapel Hill</span>
+            <span class="author-block"><sup>2</sup>University of Maryland</span>
+            <span class="author-block"><sup>3</sup>Lenovo</span>
+          </div>
+
+          <div class="is-size-6">
+            <em>* Equal contribution</em>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="static/files/paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2506.21008"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a 
+                   class="external-link button is-normal is-rounded is-dark" disabled
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ------------------------------- teaser -------------------------------- -->
+<section class="hero teaser">
+  <div class="hero-body is-full-width container is-max-desktop">
+    <div class="columns">
+      <div class="column is-12">
+        <img src="./static/images/teaser.jpg"/>
+      </div>
+      <!-- <div class="column is-6">
+        <video id="paper-video" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/teaser.mp4"
+                  type="video/mp4">
+        </video>
+      </div> -->
+    </div>
+    <br>
+    <h2 class="title is-3">Motivation: What if aging wasn't a straight line—but a tree?</h2>
+    <!-- <div class="publication-video">
+      <iframe src="https://www.youtube.com/embed/PP6JKR3KfUQ?rel=0&amp;showinfo=0"
+              frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div> -->
+    <div class="content has-text-justified">
+      Aging is not a single path but a multiverse of possibilities shaped by our choices and environments. From skincare to stress, diet to sunlight, every external factor nudges us down a different trajectory. The <em>Aging Multiverse</em> brings this idea to life by generating branching visualizations—aging trees—that show how you might age under different lifestyle conditions. 
+      Each branch represents a plausible future, empowering users to explore the visual consequences of health habits, environmental exposure, and more.
+    </div>
+    <br>
+  </div>
+</section>
+
+<!-- ------------------------------ abstract ------------------------------- -->
+<section class="section hero is-light" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          We introduce the <em>Aging Multiverse</em>, a framework for generating multiple plausible facial aging trajectories from a single image, each conditioned on external factors such as environment, health, and lifestyle. Unlike prior methods that model aging as a single deterministic path, our approach creates an aging tree that visualizes diverse futures. To enable this, we propose a training-free diffusion-based method that balances identity preservation, age accuracy, and condition control. 
+          Our key contributions include attention mixing to modulate editing strength and a Simulated Aging Regularization strategy to stabilize edits. Extensive experiments and user studies demonstrate state-of-the-art performance across identity preservation, aging realism, and conditional alignment, outperforming existing editing and age-progression models, which often fail to account for one or more of the editing criteria. By transforming aging into a multi-dimensional, controllable, and interpretable process, our approach opens up new creative and practical avenues in digital storytelling, health education, and personalized visualization.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/hENjfX8A7V0?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<!-- ------------------------------- method -------------------------------- -->
+<section class="hero is-small">
+  <div class="hero body">
+    <div class="container is-max-desktop has-text-centered">
+      <h2 class="title is-3" id="method">Method</h2>
+      <div class="item">
+        <img src="./static/images/architecture.jpg"/>
+        <h2 class="content has-text-justified">
+          Overview of our training-free conditional-age progression framework. Given an input image and a textual description of external aging factors, our method leverages flow matching techniques to perform editing. Our approach balances three competing objectives—identity preservation, age accuracy, and condition alignment—enabling conditional age transformation without retraining.
+          Our key innovations are: (i) attention mixing of Key and Value tensors between inversion and editing, and (ii) attention regularization with simulated unconditional aging to achieve the best inversion-editability trade-off.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ----------------------- downstream applications ----------------------- -->
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Animation</h2>
+
+      <!-- Celebrity Section -->
+      <div>
+        <h3 class="title is-4">Celebrity</h3>
+        <div class="image-container" style="display: flex; justify-content: center; gap: 5px; margin-left: 20px; margin-right: 20px;">
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebSourceImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>Source (<span id="celebSourceAge"></span> years old)</div>
+            </div>
+            <div style="width: 14%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div id="celebCondition" style="font-size: medium;"></div>
+                <div style="font-size: 2em;">&#8594;</div>
+                <div style="font-size: medium;">Target age: <span id="celebTargetAge"></span></div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebOursImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>Ours</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebRFSolverEditImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>RF-Solver-Edit</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebFlowEditImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FlowEdit</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebFireFlowImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FireFlow</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="celebFadingImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FADING <br> (only aging effect)</div>
+            </div>
+        </div>
+
+        <p class="text-justify" style="text-align: center; font-style: italic; font-size: large;">
+            <b style="background-color: yellow;">
+                Please try selecting different celebrities by clicking on the thumbnails.
+            </b>
+        </p>
+
+        <div class="pill-row scene-pills has-text-centered" id="scene-pills-celebrity">
+          <span class="pill scene-pill active" data-value="al" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/al/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="al2" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/al2/source.jpeg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="charles" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/charles/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="charles2" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/charles2/source.jpeg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="chow" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/chow/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="chow2" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/chow2/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="elaine" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/elaine/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="elizabeth" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/elizabeth/source.jpeg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="jackie" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/jackie/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="oprah" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/oprah/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="oprah2" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/oprah2/source.jpeg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="robert" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/robert/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="robert2" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/robert2/source.jpeg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="thatcher" onclick="selectCompMedia('celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/celeb/thatcher/source.jpg" width="64">
+          </span>
+        </div>
+      </div>
+      <!-- Non-celebrity Section Placeholder -->
+      <div>
+        <h3 class="title is-4">Non-celebrity</h3>
+        <div class="image-container" style="display: flex; justify-content: center; gap: 5px; margin-left: 20px; margin-right: 20px;">
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebSourceImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>Source (<span id="nonCelebSourceAge"></span> years old)</div>
+            </div>
+            <div style="width: 14%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div id="nonCelebCondition" style="font-size: medium;"></div>
+                <div style="font-size: 2em;">&#8594;</div>
+                <div style="font-size: medium;">Target age: <span id="nonCelebTargetAge"></span></div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebOursImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>Ours</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebRFSolverEditImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>RF-Solver-Edit</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebFlowEditImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FlowEdit</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebFireFlowImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FireFlow</div>
+            </div>
+            <div style="width: 14%; text-align: center;">
+                <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
+                    <img class="image" style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                          id="nonCelebFadingImage" src="" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
+                <div>FADING <br> (only aging effect)</div>
+            </div>
+        </div>
+
+        <p class="text-justify" style="text-align: center; font-style: italic; font-size: large;">
+            <b style="background-color: yellow;">
+                Please try selecting different non-celebrities by clicking on the thumbnails.
+            </b>
+        </p>
+
+        <div class="pill-row scene-pills has-text-centered" id="scene-pills-non-celebrity">
+          <span class="pill scene-pill active" data-value="ana" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/ana/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="andrea" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/andrea/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="bang" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/bang/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="daniel" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/daniel/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="jun" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/jun/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="jun2" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/jun2/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="luchao" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/luchao/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="noah" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/noah/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="noah2" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/noah2/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="prakrut" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/prakrut/source.jpg" width="64">
+          </span>
+          <span class="pill scene-pill" data-value="roni" onclick="selectCompMedia('non-celebrity', this)">
+            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/roni/source.jpg" width="64">
+          </span>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+  </div>
+</section>
+
+<!-- acknowledgements -->
+<section class="section" id="acknowledgements">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Acknowledgements</h2>
+    <div class="content">
+      <p>
+        This research was supported in part by Lenovo Research (Morrisville, NC). We gratefully acknowledge the invaluable support and assistance of the members of the Mobile Technology Innovations Lab. 
+        This work was also supported in part by the National Science Foundation under Grant No.2213335.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- bib -->
+<section class="section" id="bib">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{gong2025agingmultiversegeneratingconditionaware,
+      title={The Aging Multiverse: Generating Condition-Aware Facial Aging Tree via Training-Free Diffusion}, 
+      author={Bang Gong and Luchao Qi and Jiaye Wu and Zhicheng Fu and Chunbo Song and David W. Jacobs and John Nicholson and Roni Sengupta},
+      year={2025},
+      eprint={2506.21008},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2506.21008}, 
+    }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a> -->
+      <a class="icon-link" href="https://github.com/luchaoqi" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website template credits to 
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, and 
+            <a href="https://reconfusion.github.io/">Reconfusion</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div style="text-align: center;">
+  <a href="#">
+      <button class="backButton">
+          Back to Top
+      </button>
+  </a>
+</div>
+
+</body>
+</html>
