@@ -45,6 +45,24 @@
   <!-- reconfusion -->
   <link rel="stylesheet" href="./static/css/app.css">
 
+  <!-- Custom styles for author institution colors -->
+  <style>
+    a.author-unc, a.author-unc:link, a.author-unc:visited, a.author-unc:hover, a.author-unc:active { 
+      color: #4B9CD3 !important; 
+    } /* UNC Chapel Hill - Carolina Blue */
+    a.author-umd, a.author-umd:link, a.author-umd:visited, a.author-umd:hover, a.author-umd:active { 
+      color: #D4A017 !important; 
+    } /* University of Maryland - Dark Gold */
+    a.author-lenovo, a.author-lenovo:link, a.author-lenovo:visited, a.author-lenovo:hover, a.author-lenovo:active { 
+      color: #228B22 !important; 
+    } /* Lenovo - Forest Green */
+    
+    /* Institution name colors */
+    .institution-unc { color: #4B9CD3 !important; font-weight: bold; } /* UNC Chapel Hill */
+    .institution-umd { color: #D4A017 !important; font-weight: bold; } /* University of Maryland */
+    .institution-lenovo { color: #228B22 !important; font-weight: bold; } /* Lenovo */
+  </style>
+
   <!-- ----------------------------------------------------------------------- -->
   <!--                                   js                                    -->
   <!-- ----------------------------------------------------------------------- -->
@@ -92,7 +110,7 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://luchaoqi.com/">
+      <a class="navbar-item" href="https://luchaoqi.com/" target="_blank">
       <span class="icon">
           <i class="fas fa-home"></i>
       </span>
@@ -147,35 +165,35 @@
 
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://www.linkedin.com/in/bang-gong-461862250/">Bang Gong</a><sup>1*</sup>,
+              <a href="https://www.linkedin.com/in/bang-gong-461862250/" target="_blank" class="author-unc">Bang Gong</a><sup>1*</sup>,
             </span>
             <span class="author-block">
-              <a href="https://luchaoqi.com/">Luchao Qi</a><sup>1*</sup>,
+              <a href="https://luchaoqi.com/" target="_blank" class="author-unc">Luchao Qi</a><sup>1*</sup>,
             </span>
             <span class="author-block">
-              <a href="https://scholar.google.com/citations?user=g2CuYi4AAAAJ&hl=en">Jiaye Wu</a><sup>2</sup>,
+              <a href="https://scholar.google.com/citations?user=g2CuYi4AAAAJ&hl=en" target="_blank" class="author-umd">Jiaye Wu</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.linkedin.com/in/zhicheng-fu-97533492/">Zhicheng Fu</a><sup>3</sup>,
+              <a href="https://www.linkedin.com/in/zhicheng-fu-97533492/" target="_blank" class="author-lenovo">Zhicheng Fu</a><sup>3</sup>,
             </span>
             <span class="author-block">
-              <a href="">Chunbo Song</a><sup>3</sup>,
+              <a href="https://www.linkedin.com/in/chunbo-s-24064661/" target="_blank" class="author-lenovo">Chunbo Song</a><sup>3</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.cs.umd.edu/~djacobs/">David W. Jacobs</a><sup>2</sup>,
+              <a href="https://www.cs.umd.edu/~djacobs/" target="_blank" class="author-umd">David W. Jacobs</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.linkedin.com/in/john-nicholson-9684792/">John Nicholson</a><sup>3</sup>,
+              <a href="https://www.linkedin.com/in/john-nicholson-9684792/" target="_blank" class="author-lenovo">John Nicholson</a><sup>3</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.cs.unc.edu/~ronisen/">Roni Sengupta</a><sup>1</sup>
+              <a href="https://www.cs.unc.edu/~ronisen/" target="_blank" class="author-unc">Roni Sengupta</a><sup>1</sup>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>UNC Chapel Hill</span>
-            <span class="author-block"><sup>2</sup>University of Maryland</span>
-            <span class="author-block"><sup>3</sup>Lenovo</span>
+            <span class="author-block"><sup>1</sup><span class="institution-unc">UNC Chapel Hill</span></span>
+            <span class="author-block"><sup>2</sup><span class="institution-umd">University of Maryland</span></span>
+            <span class="author-block"><sup>3</sup><span class="institution-lenovo">Lenovo</span></span>
           </div>
 
           <div class="is-size-6">
@@ -300,14 +318,32 @@
 <!-- ----------------------- downstream applications ----------------------- -->
 <section class="section" id="results">
   <div class="container is-max-desktop">
-    <!-- Animation. -->
+    <!-- Results. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
+        <h2 class="title is-3">Results</h2>
 
       <!-- Celebrity Section -->
       <div>
         <h3 class="title is-4">Celebrity</h3>
+        
+        <!-- Controls for Celebrity -->
+        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+          <div>
+            <label style="font-weight: bold;">Condition:</label>
+            <select id="celebConditionSelect" onchange="updateCelebImages()" style="margin-left: 10px; padding: 5px;">
+              <option value="">Select condition</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-weight: bold;">Target Age:</label>
+            <select id="celebAgeSelect" onchange="updateCelebImages()" style="margin-left: 10px; padding: 5px;">
+              <option value="50">50</option>
+              <option value="70">70</option>
+            </select>
+          </div>
+        </div>
+        
         <div class="image-container" style="display: flex; justify-content: center; gap: 5px; margin-left: 20px; margin-right: 20px;">
             <div style="width: 14%; text-align: center;">
                 <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
@@ -317,9 +353,9 @@
                 <div>Source (<span id="celebSourceAge"></span> years old)</div>
             </div>
             <div style="width: 14%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div id="celebCondition" style="font-size: medium;"></div>
+                <div id="celebCondition" style="font-size: medium; text-align: center; font-weight: bold;"></div>
                 <div style="font-size: 2em;">&#8594;</div>
-                <div style="font-size: medium;">Target age: <span id="celebTargetAge"></span></div>
+                <div style="font-size: medium; font-weight: bold;">Target age: <span id="celebTargetAge"></span></div>
             </div>
             <div style="width: 14%; text-align: center;">
                 <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
@@ -360,58 +396,45 @@
 
         <p class="text-justify" style="text-align: center; font-style: italic; font-size: large;">
             <b style="background-color: yellow;">
-                Please try selecting different celebrities by clicking on the thumbnails.
+                Please try selecting different examples by clicking on the thumbnails.
             </b>
         </p>
 
         <div class="pill-row scene-pills has-text-centered" id="scene-pills-celebrity">
-          <span class="pill scene-pill active" data-value="al" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/al/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="al2" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/al2/source.jpeg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="charles" onclick="selectCompMedia('celebrity', this)">
+          <span class="pill scene-pill active" data-value="charles" onclick="selectCompPersonCeleb('charles', this)">
             <img class="thumbnail-img" src="static/images/comparisons/celeb/charles/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="charles2" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/charles2/source.jpeg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="chow" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/chow/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="chow2" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/chow2/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="elaine" onclick="selectCompMedia('celebrity', this)">
+          <span class="pill scene-pill" data-value="elaine" onclick="selectCompPersonCeleb('elaine', this)">
             <img class="thumbnail-img" src="static/images/comparisons/celeb/elaine/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="elizabeth" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/elizabeth/source.jpeg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="jackie" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/jackie/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="oprah" onclick="selectCompMedia('celebrity', this)">
+          <span class="pill scene-pill" data-value="oprah" onclick="selectCompPersonCeleb('oprah', this)">
             <img class="thumbnail-img" src="static/images/comparisons/celeb/oprah/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="oprah2" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/oprah2/source.jpeg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="robert" onclick="selectCompMedia('celebrity', this)">
+          <span class="pill scene-pill" data-value="robert" onclick="selectCompPersonCeleb('robert', this)">
             <img class="thumbnail-img" src="static/images/comparisons/celeb/robert/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="robert2" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/robert2/source.jpeg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="thatcher" onclick="selectCompMedia('celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/celeb/thatcher/source.jpg" width="64">
           </span>
         </div>
       </div>
-      <!-- Non-celebrity Section Placeholder -->
+      <!-- Non-celebrity Section -->
       <div>
         <h3 class="title is-4">Non-celebrity</h3>
+        
+        <!-- Controls for Non-Celebrity -->
+        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+          <div>
+            <label style="font-weight: bold;">Condition:</label>
+            <select id="nonCelebConditionSelect" onchange="updateNonCelebImages()" style="margin-left: 10px; padding: 5px;">
+              <option value="">Select condition</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-weight: bold;">Target Age:</label>
+            <select id="nonCelebAgeSelect" onchange="updateNonCelebImages()" style="margin-left: 10px; padding: 5px;">
+              <option value="50">50</option>
+              <option value="70">70</option>
+            </select>
+          </div>
+        </div>
         <div class="image-container" style="display: flex; justify-content: center; gap: 5px; margin-left: 20px; margin-right: 20px;">
             <div style="width: 14%; text-align: center;">
                 <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
@@ -421,9 +444,9 @@
                 <div>Source (<span id="nonCelebSourceAge"></span> years old)</div>
             </div>
             <div style="width: 14%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div id="nonCelebCondition" style="font-size: medium;"></div>
+                <div id="nonCelebCondition" style="font-size: medium; text-align: center; font-weight: bold;"></div>
                 <div style="font-size: 2em;">&#8594;</div>
-                <div style="font-size: medium;">Target age: <span id="nonCelebTargetAge"></span></div>
+                <div style="font-size: medium; font-weight: bold;">Target age: <span id="nonCelebTargetAge"></span></div>
             </div>
             <div style="width: 14%; text-align: center;">
                 <div style="aspect-ratio: 1; display: flex; justify-content: center; align-items: center;">
@@ -464,43 +487,22 @@
 
         <p class="text-justify" style="text-align: center; font-style: italic; font-size: large;">
             <b style="background-color: yellow;">
-                Please try selecting different non-celebrities by clicking on the thumbnails.
+                Please try selecting different examples by clicking on the thumbnails.
             </b>
         </p>
 
         <div class="pill-row scene-pills has-text-centered" id="scene-pills-non-celebrity">
-          <span class="pill scene-pill active" data-value="ana" onclick="selectCompMedia('non-celebrity', this)">
+          <span class="pill scene-pill active" data-value="ana" onclick="selectCompPersonNonCeleb('ana', this)">
             <img class="thumbnail-img" src="static/images/comparisons/nonceleb/ana/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="andrea" onclick="selectCompMedia('non-celebrity', this)">
+          <span class="pill scene-pill" data-value="andrea" onclick="selectCompPersonNonCeleb('andrea', this)">
             <img class="thumbnail-img" src="static/images/comparisons/nonceleb/andrea/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="bang" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/bang/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="daniel" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/daniel/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="jun" onclick="selectCompMedia('non-celebrity', this)">
+          <span class="pill scene-pill" data-value="jun" onclick="selectCompPersonNonCeleb('jun', this)">
             <img class="thumbnail-img" src="static/images/comparisons/nonceleb/jun/source.jpg" width="64">
           </span>
-          <span class="pill scene-pill" data-value="jun2" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/jun2/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="luchao" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/luchao/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="noah" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/noah/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="noah2" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/noah2/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="prakrut" onclick="selectCompMedia('non-celebrity', this)">
+          <span class="pill scene-pill" data-value="prakrut" onclick="selectCompPersonNonCeleb('prakrut', this)">
             <img class="thumbnail-img" src="static/images/comparisons/nonceleb/prakrut/source.jpg" width="64">
-          </span>
-          <span class="pill scene-pill" data-value="roni" onclick="selectCompMedia('non-celebrity', this)">
-            <img class="thumbnail-img" src="static/images/comparisons/nonceleb/roni/source.jpg" width="64">
           </span>
         </div>
       </div>
@@ -549,7 +551,7 @@
          href="./static/videos/nerfies_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a> -->
-      <a class="icon-link" href="https://github.com/luchaoqi" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/luchaoqi" class="external-link" disabled target="_blank">
         <i class="fab fa-github"></i>
       </a>
     </div>
@@ -558,13 +560,13 @@
         <div class="content">
           <p>
             This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
             Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
           <p>
             Website template credits to 
-            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, and 
-            <a href="https://reconfusion.github.io/">Reconfusion</a>.
+            <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>, and 
+            <a href="https://reconfusion.github.io/" target="_blank">Reconfusion</a>.
           </p>
         </div>
       </div>
